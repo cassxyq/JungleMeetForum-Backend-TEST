@@ -13,7 +13,7 @@ pipeline {
         IMAGE_NAME = "prac"
         //IMAGE_TAG =  "${GIT_COMMIT_MSG}" 
         //IMAGE_TAG = "latest"
-        IMAGE_TAG = "${GIT_COMMIT[0..5]}"
+        IMAGE_TAG = "${GIT_COMMIT[0..6]}"
         ECR_REPO_NAME = "ecsprac"
         ECR_PREFIX_URL = "${AWS_ACCOUNTID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
         IMAGE_URI = "${AWS_ACCOUNTID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMAGE_TAG}"
@@ -24,7 +24,7 @@ pipeline {
         DESIRED_COUNT = 2
 
         MONGO_URI = credentials('junglemeet-mongo-uri')
-        
+        TMDB_KEY = credentials('junglemeet-tmdb-key')
     }
 
     stages {
@@ -49,7 +49,17 @@ pipeline {
         stage("BuildImage"){
             steps {
                 dir(WORKDIR){
-                    sh ('docker build --build-arg MONGOURI_ARG=\"$MONGO_URI\" -t $IMAGE_NAME:$IMAGE_TAG .')
+                    sh ('docker build --build-arg MONGOURI_ARG=\"$MONGO_URI\" \
+                        --build-arg TMDB_ARG=$TMDB_KEY \
+                        -t $IMAGE_NAME:$IMAGE_TAG .')
+                }
+            }
+        }
+
+        stage("ScanImage"){
+            steps {
+                dir(WORKDIR){
+                    sh "trivy --severity HIGH,CRITICAL image ${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }
