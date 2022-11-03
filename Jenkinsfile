@@ -49,20 +49,22 @@ pipeline {
         stage("BuildImage"){
             steps {
                 dir(WORKDIR){
-                    sh ('docker build --build-arg MONGOURI_ARG=$MONGO_URI \
+                    sh '''
+                        docker build --build-arg MONGOURI_ARG=$MONGO_URI \
                         --build-arg TMDB_ARG=$TMDB_KEY \
-                        -t $IMAGE_NAME:$IMAGE_TAG .')
+                        -t $IMAGE_NAME:$IMAGE_TAG .
+                        '''
                 }
             }
         }
 
-        stage("ScanImage"){
+        /*stage("ScanImage"){
             steps {
                 dir(WORKDIR){
                     sh "trivy --severity HIGH,CRITICAL image ${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
-        }
+        }*/
 
         stage("TagImage"){
             steps {
