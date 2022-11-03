@@ -49,7 +49,7 @@ pipeline {
         stage("BuildImage"){
             steps {
                 dir(WORKDIR){
-                    sh ('docker build --build-arg MONGOURI_ARG=\"$MONGO_URI\" \
+                    sh ('docker build --build-arg MONGOURI_ARG=$MONGO_URI \
                         --build-arg TMDB_ARG=$TMDB_KEY \
                         -t $IMAGE_NAME:$IMAGE_TAG .')
                 }
