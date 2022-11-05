@@ -38,6 +38,29 @@ pipeline {
             }
         }*/
 
+        stage('SonarQube analysis'){
+            environment {
+                    // requires SonarQube Scanner 2.8+
+                scannerHome = tool 'sonarscanner'
+            }
+            steps{
+                withSonarQubeEnv('SonarQube') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
+            
+                // sleep(10)
+                // // 这个睡眠时为了防止没有分析完成就去请求结果
+                // timeout(time: 5, unit: 'MINUTES') {
+                //     script {
+                //         def qg = waitForQualityGate()
+                //         if (qg.status != 'OK') {
+                //             error "Pipeline aborted due to a quality gate failure: ${qg.status}"
+                //         }
+                //     }
+                // }
+            }    
+        }        
+
         stage("LoginECR"){
             steps {
                 withAWS(credentials: 'casstest', region: 'ap-southeast-2'){
