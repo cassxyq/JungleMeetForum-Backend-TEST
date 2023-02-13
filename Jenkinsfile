@@ -26,8 +26,8 @@ pipeline {
         ECS_SERVICE = "ecsprac-service"
         DESIRED_COUNT = 2
 
-        MONGO_URI = credentials('junglemeet-mongo-uri')
-        TMDB_KEY = credentials('junglemeet-tmdb-key')
+        //MONGO_URI = credentials('junglemeet-mongo-uri')
+        //TMDB_KEY = credentials('junglemeet-tmdb-key')
     }
 
     stages {
