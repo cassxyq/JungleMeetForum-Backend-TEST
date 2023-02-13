@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        booleanParam defaultValue: false, name: 'SnytTest'
+        booleanParam defaultValue: false, name: 'SnykTest'
     }
 
     /*options {
