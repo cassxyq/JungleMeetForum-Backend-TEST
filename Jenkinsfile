@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        booleanParam defaultValue: false, name: 'SnytTest'
+    }
 
     options {
         ansiColor('xterm')
@@ -37,6 +40,21 @@ pipeline {
                 }
             }
         }*/
+
+        stage('Test') {
+            when {expression{return params.SnykTest}}
+            steps {
+            echo 'Testing...'
+            snykSecurity(
+            snykInstallation: 'snyktest',
+            snykTokenId: 'snykapitoken',
+            //failOnIssues: 'false',
+            //organisation: 'cass-7dm',
+            // place other optional parameters here, for example:
+            //additionalArguments: '--all-projects --detection-depth=<DEPTH>'
+            )
+            }
+        }
 
         stage('SonarQube analysis'){
             environment {
