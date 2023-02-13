@@ -166,18 +166,18 @@ pipeline {
 
 
 
-    post {
+    /*post {
         always{
             cleanWs()
         }
 
-        /*success{
+        success{
             emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS'
         }
 
         failure{
             emailext body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS'
-        }*/
+        }
     
-    }
+    }*/
 }
