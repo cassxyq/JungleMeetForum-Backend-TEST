@@ -4,9 +4,9 @@ pipeline {
         booleanParam defaultValue: false, name: 'SnytTest'
     }
 
-    options {
+    /*options {
         ansiColor('xterm')
-    }
+    }*/
 
     environment {
         AWS_CRED = "casstest"
